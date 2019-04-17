@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Model\Entity;
 
-class User
+class User implements IObservable
 {
     /**
      * @var int
@@ -25,6 +25,8 @@ class User
      * @var string
      */
     private $passwordHash;
+
+    private $comment;
 
     /**
      * @var Role
@@ -85,5 +87,39 @@ class User
     public function getRole(): Role
     {
         return $this->role;
+    }
+
+
+    public function getComment()
+    {
+        return $this->comment;
+    }
+    public function setText(string $comment)
+
+    {
+        $this->comment = $comment;
+    }
+
+    public function addObserver(IObserver $observer)
+    {
+        $this->observers[] = $observer;
+    }
+
+    public function removeObserver(IObserver $observer)
+    {
+        foreach ($this->observers as &$obsrv) {
+            if ($obsrv === $observer) {
+
+                 unset($obsrv);
+                }
+        }
+    }
+
+    public function notify()
+    {
+        foreach ($this->observers as $observer) {
+
+            $observer->handle($this->comment);
+        }
     }
 }
