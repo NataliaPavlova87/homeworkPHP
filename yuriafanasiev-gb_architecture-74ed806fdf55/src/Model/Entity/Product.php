@@ -21,6 +21,7 @@ class Product
      */
     private $price;
 
+
     /**
      * @param int $id
      * @param string $name
@@ -31,7 +32,15 @@ class Product
         $this->id = $id;
         $this->name = $name;
         $this->price = $price;
+         
     }
+
+    public function __clone() {
+        $this->id = clone $this->id;
+        $this->name = clone $this->name;
+        $this->price = clone $this->price;
+    }
+
 
     /**
      * @return int
