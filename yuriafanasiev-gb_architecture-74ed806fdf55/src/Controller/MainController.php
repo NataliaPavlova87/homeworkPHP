@@ -18,6 +18,10 @@ class MainController
      */
     public function indexAction(): Response
     {
-        return $this->render('main/index.html.php');
+        $header = new HeaderView;
+        $header->add(new LogoView);
+        $header->add(new ContactView);
+        $header->drawHeader();
+        return $this->render('main/index.html.php', ['header' => $header]);
     }
 }
